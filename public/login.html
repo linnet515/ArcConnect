@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — ArcConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/auth.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">Arc<span>Connect</span></a>
+    <a href="signup.html" class="nav-link">Don't have an account? <strong>Register free</strong></a>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-bg"></div>
+
+    <div class="auth-wrap">
+
+      <!-- LEFT: Branding panel -->
+      <div class="auth-panel">
+        <div class="panel-top">
+          <p class="panel-eyebrow mentor" id="panelEyebrow">For Alumni</p>
+          <h2 class="panel-title">
+            Sign in to <em class="mentor" id="panelTitleEm">guide</em><br/>the next generation
+          </h2>
+          <p class="panel-desc" id="panelDesc">
+            Sign in to manage your mentorship opportunities, review applicants, and connect with the next generation of talent.
+          </p>
+          <ul class="panel-perks" id="perkList">
+            <li><span class="perk-dot mentor"></span> Post and manage opportunities</li>
+            <li><span class="perk-dot mentor"></span> Review incoming applications</li>
+            <li><span class="perk-dot mentor"></span> Accept or reject applicants</li>
+            <li><span class="perk-dot mentor"></span> Track all your active mentees</li>
+          </ul>
+        </div>
+        <div class="panel-bottom">
+          New to ArcConnect? <a href="signup.html">Create a free account</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="auth-form-wrap">
+
+        <h1 class="form-heading">Welcome back</h1>
+        <p class="form-subhead">Sign in to your ArcConnect account</p>
+
+        <!-- Role Toggle -->
+        <div class="role-toggle-wrap">
+          <span class="role-toggle-label">I am a</span>
+          <div class="role-toggle">
+            <button id="toggleMentor" class="toggle-option active-mentor" onclick="setRole('mentor')">
+              🎓 Mentor
+            </button>
+            <button id="toggleStudent" class="toggle-option" onclick="setRole('student')">
+              📚 Student
+            </button>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
+            <p class="field-error" id="emailError"></p>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Your password" autocomplete="current-password"/>
+            <p class="field-error" id="passError"></p>
+          </div>
+
+          <div class="forgot-row">
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <!-- Neutral submit button; JS updates label -->
+          <button type="submit" class="btn-submit mentor" id="submitBtn">
+            Sign in
+          </button>
+
+        </form>
+
+        <div class="divider"><span>or</span></div>
+
+        <p class="form-footer">
+          Don't have an account? <a href="signup.html">Register free</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- JS -->
+  <script src="js/auth.js"></script>
+</body>
+</html>

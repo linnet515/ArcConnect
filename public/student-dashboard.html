@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard — ArcConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/student-dashboard.css"/>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" class="logo">Arc<span>Connect</span></a>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userInitials">ST</div>
+      <div class="user-info">
+        <strong id="userName">Student</strong>
+        <span>Student</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-label">Overview</p>
+      <a class="nav-item active" onclick="showPanel('overview')" href="#">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" onclick="showPanel('applications')" href="#">
+        <span class="nav-icon">📋</span> My Applications
+        <span class="nav-badge amber" id="badge-applications">0</span>
+      </a>
+      <a class="nav-item" onclick="showPanel('sessions')" href="#">
+        <span class="nav-icon">📅</span> My Sessions
+        <span class="nav-badge green" id="badge-sessions">0</span>
+      </a>
+
+      <p class="nav-section-label">Discover</p>
+      <a class="nav-item" onclick="showPanel('browse')" href="#">
+        <span class="nav-icon">🔍</span> Browse Opportunities
+      </a>
+
+      <p class="nav-section-label">Account</p>
+      <a class="nav-item" onclick="showPanel('notifications')" href="#">
+        <span class="nav-icon">🔔</span> Notifications
+      </a>
+      <a class="nav-item" onclick="showPanel('profile')" href="#">
+        <span class="nav-icon">👤</span> My Profile
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="signout-btn" href="login.html"><span>🚪</span> Sign out</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <button class="notif-btn" onclick="showPanel('notifications')">
+          🔔<div class="notif-dot"></div>
+        </button>
+        <button class="btn-new" onclick="showPanel('browse')">Browse Opportunities</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── OVERVIEW PANEL ── -->
+      <div class="panel active" id="panel-overview">
+        <div class="section-head">
+          <div>
+            <h2 id="welcomeMsg">Good morning, Student 👋</h2>
+            <p>Here's a summary of your mentorship journey so far.</p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card amber">
+            <div class="stat-label">Applications Sent</div>
+            <div class="stat-value" id="stat-applied">—</div>
+            <div class="stat-sub">Total submitted</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Pending Review</div>
+            <div class="stat-value" id="stat-pending">—</div>
+            <div class="stat-sub">Awaiting mentor response</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Accepted</div>
+            <div class="stat-value" id="stat-accepted">—</div>
+            <div class="stat-sub">Active mentorships</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Open Opportunities</div>
+            <div class="stat-value" id="stat-open">—</div>
+            <div class="stat-sub">Available right now</div>
+          </div>
+        </div>
+
+        <!-- Recent Applications + Active Sessions -->
+        <div class="two-col" style="margin-bottom:1.5rem;">
+          <div class="card-box">
+            <div class="card-box-title">
+              Recent Applications
+              <a href="#" onclick="showPanel('applications')">View all</a>
+            </div>
+            <div id="overviewApplicationsList">
+              <div class="empty-state"><div class="empty-icon">📭</div><p>Loading…</p></div>
+            </div>
+          </div>
+          <div class="card-box">
+            <div class="card-box-title">
+              Active Mentorships
+              <a href="#" onclick="showPanel('sessions')">View all</a>
+            </div>
+            <div id="overviewSessions">
+              <div class="empty-state"><div class="empty-icon">📭</div><p>Loading…</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domain Quick Links -->
+        <div class="card-box">
+          <div class="card-box-title">
+            Explore by Domain
+            <a href="#" onclick="showPanel('browse')">Browse all</a>
+          </div>
+          <div class="domain-chips" id="overviewDomainChips">
+            <div class="empty-state" style="padding:1rem"><p>Loading domains…</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── APPLICATIONS PANEL ── -->
+      <div class="panel" id="panel-applications">
+        <div class="section-head">
+          <div><h2>My Applications</h2><p>All your applications grouped by domain — track each one's status.</p></div>
+        </div>
+        <div class="status-tabs">
+          <button class="stab active" onclick="filterApps('all',this)">All</button>
+          <button class="stab" onclick="filterApps('pending',this)">Pending</button>
+          <button class="stab" onclick="filterApps('accepted',this)">Accepted</button>
+          <button class="stab" onclick="filterApps('rejected',this)">Rejected</button>
+        </div>
+        <div id="applicationsList">
+          <div class="empty-state"><div class="empty-icon">📭</div><p>Loading…</p></div>
+        </div>
+      </div>
+
+      <!-- ── SESSIONS PANEL ── -->
+      <div class="panel" id="panel-sessions">
+        <div class="section-head">
+          <div><h2>My Sessions</h2><p>Your active mentorships grouped by domain.</p></div>
+        </div>
+        <div id="sessionsList">
+          <div class="empty-state"><div class="empty-icon">📭</div><p>Loading…</p></div>
+        </div>
+      </div>
+
+      <!-- ── BROWSE PANEL ── -->
+      <div class="panel" id="panel-browse">
+        <div class="section-head">
+          <div><h2>Browse Opportunities</h2><p>Find and apply for mentorship opportunities that match your goals.</p></div>
+        </div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search by title, mentor, or domain…" oninput="searchOpps(this.value)"/>
+        </div>
+        <div class="domain-filter" id="domainFilter"></div>
+        <div id="opportunitiesList">
+          <div class="empty-state"><div class="empty-icon">📭</div><p>Loading opportunities…</p></div>
+        </div>
+      </div>
+
+      <!-- ── NOTIFICATIONS PANEL ── -->
+      <div class="panel" id="panel-notifications">
+        <div class="section-head">
+          <div><h2>Notifications</h2><p>Updates on your applications and mentorships.</p></div>
+        </div>
+        <div class="card-box">
+          <div id="notifList">
+            <div class="empty-state"><div class="empty-icon">📭</div><p>Loading…</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROFILE PANEL ── -->
+      <div class="panel" id="panel-profile">
+        <div class="section-head">
+          <div><h2>My Profile</h2><p>Keep your profile updated so mentors can learn more about you.</p></div>
+        </div>
+        <div class="profile-header">
+          <div class="profile-avatar-lg" id="profileAvatarLg">ST</div>
+          <div class="profile-meta">
+            <h2 id="profileName">Student</h2>
+            <p>Student · ArcConnect</p>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="card-box-title">Personal Information</div>
+          <div class="profile-grid">
+            <div class="profile-field"><label>First Name</label><input type="text" id="pfFirstName" placeholder="Your first name"/></div>
+            <div class="profile-field"><label>Last Name</label><input type="text" id="pfLastName" placeholder="Your last name"/></div>
+            <div class="profile-field"><label>Email Address</label><input type="email" id="pfEmail" placeholder="you@college.edu"/></div>
+            <div class="profile-field"><label>College / Institution</label><input type="text" id="pfInstitution" placeholder="e.g. IIT Bombay"/></div>
+            <div class="profile-field profile-full"><label>LinkedIn Profile URL</label><input type="url" id="pfLinkedin" placeholder="https://linkedin.com/in/yourname"/></div>
+            <div class="profile-field profile-full">
+              <label>Interests / Tags</label>
+              <div class="expertise-wrap" onclick="document.getElementById('expInput').focus()">
+                <div id="expDisplay"></div>
+                <input type="text" id="expInput" placeholder="Type and press Enter — e.g. Placements, Data Science"/>
+              </div>
+              <p style="font-size:0.72rem;color:var(--muted);margin-top:0.35rem;">Add up to 5 tags. Helps mentors understand your goals.</p>
+            </div>
+          </div>
+          <button class="btn-save-profile" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── APPLY MODAL ── -->
+  <div class="modal-overlay" id="applyModal">
+    <div class="modal">
+      <h2 class="modal-title" id="applyModalTitle">Apply for Mentorship</h2>
+      <div class="opp-preview" id="applyOppPreview"></div>
+      <div class="modal-field">
+        <label>Cover Note</label>
+        <textarea id="coverNote" placeholder="Tell the mentor about your goals and why you'd be a great fit for this opportunity…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeApplyModal()">Cancel</button>
+        <button class="btn-save" onclick="submitApplication()">Submit Application</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/student-dashboard.js"></script>
+</body>
+</html>

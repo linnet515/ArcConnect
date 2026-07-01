@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentor Dashboard — ArcConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/mentor-dashboard.css"/>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" class="logo">Arc<span>Connect</span></a>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userInitials">MK</div>
+      <div class="user-info">
+        <strong id="userName">Mentor</strong>
+        <span>Mentor</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-label">Overview</p>
+      <a class="nav-item active" onclick="showPanel('overview')" href="#">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" onclick="showPanel('sessions')" href="#">
+        <span class="nav-icon">📅</span> Sessions
+        <span class="nav-badge">3</span>
+      </a>
+      <a class="nav-item" onclick="showPanel('applicants')" href="#">
+        <span class="nav-icon">📋</span> Applicants
+        <span class="nav-badge amber">5</span>
+      </a>
+      <p class="nav-section-label">Mentorship</p>
+      <a class="nav-item" onclick="showPanel('mentees')" href="#">
+        <span class="nav-icon">👥</span> Mentee Directory
+      </a>
+      <a class="nav-item" onclick="showPanel('goals')" href="#">
+        <span class="nav-icon">🎯</span> Goal Tracker
+      </a>
+      <a class="nav-item" onclick="showPanel('feedback')" href="#">
+        <span class="nav-icon">⭐</span> Feedback
+        <span class="nav-badge red">2</span>
+      </a>
+      <p class="nav-section-label">Content</p>
+      <a class="nav-item" onclick="showPanel('opportunities')" href="#">
+        <span class="nav-icon">💼</span> My Opportunities
+      </a>
+      <a class="nav-item" onclick="showPanel('activity')" href="#">
+        <span class="nav-icon">⚡</span> Activity Feed
+      </a>
+      <a class="nav-item" onclick="showPanel('tools')" href="#">
+        <span class="nav-icon">🛠️</span> Tools & Resources
+      </a>
+      <p class="nav-section-label">Account</p>
+      <a class="nav-item" onclick="showPanel('notifications')" href="#">
+        <span class="nav-icon">🔔</span> Notifications
+        <span class="nav-badge red">3</span>
+      </a>
+      <a class="nav-item" onclick="showPanel('profile')" href="#">
+        <span class="nav-icon">👤</span> My Profile
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="signout-btn" href="login.html">
+        <span>🚪</span> Sign out
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <button class="notif-btn" onclick="showPanel('notifications')">
+          🔔 <div class="notif-dot"></div>
+        </button>
+        <button class="btn-new" onclick="openModal()">+ New Opportunity</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── OVERVIEW PANEL ── -->
+      <div class="panel active" id="panel-overview">
+        <div class="section-head">
+          <div>
+            <h2 id="welcomeMsg">Good morning, Mentor 👋</h2>
+            <p>Here's what's happening with your mentorships today.</p>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card blue">
+            <div class="stat-label">Active Mentees</div>
+            <div class="stat-value">6</div>
+            <div class="stat-sub">↑ 2 this month</div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-label">Pending Applications</div>
+            <div class="stat-value">5</div>
+            <div class="stat-sub">Awaiting your review</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Sessions This Month</div>
+            <div class="stat-value">9</div>
+            <div class="stat-sub">3 upcoming</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Avg. Feedback Rating</div>
+            <div class="stat-value">4.8</div>
+            <div class="stat-sub">★ from 12 reviews</div>
+          </div>
+        </div>
+        <div class="two-col" style="margin-bottom:1.5rem;">
+          <div class="card-box">
+            <div class="card-box-title">Upcoming Sessions <a href="#" onclick="showPanel('sessions')">View all</a></div>
+            <div class="sessions-list">
+              <div class="session-card" data-type="upcoming">
+                <div class="session-status" style="background:var(--cobalt2)"></div>
+                <div class="session-info"><strong>Career Path Discussion</strong><span>Arjun Sharma · Today, 3:00 PM</span></div>
+                <span class="session-tag tag-upcoming">Upcoming</span>
+              </div>
+              <div class="session-card" data-type="pending">
+                <div class="session-status" style="background:var(--amber)"></div>
+                <div class="session-info"><strong>Resume Review</strong><span>Priya Nair · Tomorrow, 11:00 AM</span></div>
+                <span class="session-tag tag-pending">Pending Confirm</span>
+              </div>
+              <div class="session-card" data-type="progress">
+                <div class="session-status" style="background:var(--green)"></div>
+                <div class="session-info"><strong>Mock Interview Prep</strong><span>Riya Patel · In Progress</span></div>
+                <span class="session-tag tag-progress">In Progress</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-box">
+            <div class="card-box-title">Pending Applicants <a href="#" onclick="showPanel('applicants')">View all</a></div>
+            <div class="applicant-row">
+              <div class="applicant-avatar">AS</div>
+              <div class="applicant-info"><strong>Arjun Sharma</strong><span>Placements · IIT Bombay</span></div>
+              <div class="applicant-actions">
+                <button class="btn-accept" onclick="showToast('Arjun accepted ✓','success')">✓</button>
+                <button class="btn-reject" onclick="showToast('Application rejected','fail')">✕</button>
+              </div>
+            </div>
+            <div class="applicant-row">
+              <div class="applicant-avatar">PN</div>
+              <div class="applicant-info"><strong>Priya Nair</strong><span>Data Science · NIT Trichy</span></div>
+              <div class="applicant-actions">
+                <button class="btn-accept" onclick="showToast('Priya accepted ✓','success')">✓</button>
+                <button class="btn-reject" onclick="showToast('Application rejected','fail')">✕</button>
+              </div>
+            </div>
+            <div class="applicant-row">
+              <div class="applicant-avatar">RK</div>
+              <div class="applicant-info"><strong>Rahul Kumar</strong><span>Entrepreneurship · BITS Pilani</span></div>
+              <div class="applicant-actions">
+                <button class="btn-accept" onclick="showToast('Rahul accepted ✓','success')">✓</button>
+                <button class="btn-reject" onclick="showToast('Application rejected','fail')">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="card-box">
+            <div class="card-box-title">Recent Activity <a href="#" onclick="showPanel('activity')">View all</a></div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--green)"></div>
+              <div><div class="activity-text"><strong>Arjun Sharma</strong> accepted your mentorship offer</div><div class="activity-time">2 hours ago</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--cobalt2)"></div>
+              <div><div class="activity-text"><strong>Priya Nair</strong> applied for Data Science Guidance</div><div class="activity-time">5 hours ago</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--amber)"></div>
+              <div><div class="activity-text"><strong>Riya Patel</strong> submitted goal update</div><div class="activity-time">Yesterday</div></div>
+            </div>
+          </div>
+          <div class="card-box">
+            <div class="card-box-title">Latest Feedback <a href="#" onclick="showPanel('feedback')">View all</a></div>
+            <div class="feedback-card">
+              <div class="feedback-header">
+                <div class="feedback-avatar">AS</div>
+                <div class="feedback-meta"><strong>Arjun Sharma</strong><span>Career Path session</span></div>
+                <div class="stars">★★★★★</div>
+              </div>
+              <p class="feedback-text">"Incredibly insightful session. Helped me map out a clear roadmap for placements."</p>
+            </div>
+            <div class="feedback-card">
+              <div class="feedback-header">
+                <div class="feedback-avatar">RP</div>
+                <div class="feedback-meta"><strong>Riya Patel</strong><span>Resume Review session</span></div>
+                <div class="stars">★★★★☆</div>
+              </div>
+              <p class="feedback-text">"Very detailed feedback on my resume. Got shortlisted at 2 companies after the session."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SESSIONS PANEL ── -->
+      <div class="panel" id="panel-sessions">
+        <div class="section-head">
+          <div><h2>Sessions</h2><p>Manage your sessions grouped by domain and filtered by status.</p></div>
+          <button class="btn-new" onclick="showToast('Session scheduler coming soon','success')">+ Schedule Session</button>
+        </div>
+        <div class="sessions-tabs">
+          <button class="stab active" onclick="filterSessions('all',this)">All</button>
+          <button class="stab" onclick="filterSessions('upcoming',this)">Upcoming</button>
+          <button class="stab" onclick="filterSessions('pending',this)">Pending</button>
+          <button class="stab" onclick="filterSessions('progress',this)">In Progress</button>
+        </div>
+        <div class="domain-group" data-domain="placements">
+          <div class="domain-group-label">🎓 Campus Placements <span>2 sessions</span></div>
+          <div class="sessions-list">
+            <div class="session-card" data-type="upcoming">
+              <div class="session-status" style="background:var(--cobalt2)"></div>
+              <div class="session-info"><strong>Career Path Discussion</strong><span>Arjun Sharma · Today, 3:00 PM · 45 min</span></div>
+              <div class="session-meta"><span class="session-tag tag-upcoming">Upcoming</span><span class="domain-badge">Placements</span></div>
+              <div class="session-actions"><button class="btn-sm primary">Join</button><button class="btn-sm" onclick="showToast('Session rescheduled','success')">Reschedule</button></div>
+            </div>
+            <div class="session-card" data-type="pending">
+              <div class="session-status" style="background:var(--amber)"></div>
+              <div class="session-info"><strong>Resume Review</strong><span>Priya Nair · Tomorrow, 11:00 AM · 30 min</span></div>
+              <div class="session-meta"><span class="session-tag tag-pending">Pending Confirm</span><span class="domain-badge">Placements</span></div>
+              <div class="session-actions"><button class="btn-sm primary" onclick="showToast('Session confirmed ✓','success')">Confirm</button><button class="btn-sm" onclick="showToast('Session cancelled','fail')">Cancel</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="domain-group" data-domain="data">
+          <div class="domain-group-label">📊 Data Science & AI <span>1 session</span></div>
+          <div class="sessions-list">
+            <div class="session-card" data-type="progress">
+              <div class="session-status" style="background:var(--green)"></div>
+              <div class="session-info"><strong>ML Roadmap Planning</strong><span>Priya Nair · In Progress · Started 10 min ago</span></div>
+              <div class="session-meta"><span class="session-tag tag-progress">In Progress</span><span class="domain-badge">Data Science</span></div>
+              <div class="session-actions"><button class="btn-sm primary">Join Now</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="domain-group" data-domain="startup">
+          <div class="domain-group-label">🚀 Entrepreneurship <span>1 session</span></div>
+          <div class="sessions-list">
+            <div class="session-card" data-type="upcoming">
+              <div class="session-status" style="background:var(--cobalt2)"></div>
+              <div class="session-info"><strong>Goal Setting Workshop</strong><span>Rahul Kumar · Friday, 2:00 PM · 60 min</span></div>
+              <div class="session-meta"><span class="session-tag tag-upcoming">Upcoming</span><span class="domain-badge">Entrepreneurship</span></div>
+              <div class="session-actions"><button class="btn-sm">Prepare</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── APPLICANTS PANEL ── -->
+      <div class="panel" id="panel-applicants">
+        <div class="section-head">
+          <div><h2>Applicants</h2><p>Review and manage incoming applications.</p></div>
+        </div>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search applicants by name, domain, or institution…" oninput="searchApplicants(this.value)"/>
+        </div>
+        <div class="card-box" id="applicantsBox">
+          <div class="card-box-title">Pending Review (5)</div>
+          <div class="applicant-row">
+            <div class="applicant-avatar">AS</div>
+            <div class="applicant-info"><strong>Arjun Sharma</strong><span>Placements · IIT Bombay · Campus Placement Guidance</span></div>
+            <div class="applicant-actions"><button class="btn-sm">View</button><button class="btn-accept" onclick="showToast('Arjun accepted ✓','success')">Accept</button><button class="btn-reject" onclick="showToast('Rejected','fail')">Reject</button></div>
+          </div>
+          <div class="applicant-row">
+            <div class="applicant-avatar">PN</div>
+            <div class="applicant-info"><strong>Priya Nair</strong><span>Data Science · NIT Trichy · ML & Data Science Mentorship</span></div>
+            <div class="applicant-actions"><button class="btn-sm">View</button><button class="btn-accept" onclick="showToast('Priya accepted ✓','success')">Accept</button><button class="btn-reject" onclick="showToast('Rejected','fail')">Reject</button></div>
+          </div>
+          <div class="applicant-row">
+            <div class="applicant-avatar">RK</div>
+            <div class="applicant-info"><strong>Rahul Kumar</strong><span>Entrepreneurship · BITS Pilani · Startup Mentorship</span></div>
+            <div class="applicant-actions"><button class="btn-sm">View</button><button class="btn-accept" onclick="showToast('Rahul accepted ✓','success')">Accept</button><button class="btn-reject" onclick="showToast('Rejected','fail')">Reject</button></div>
+          </div>
+          <div class="applicant-row">
+            <div class="applicant-avatar">SM</div>
+            <div class="applicant-info"><strong>Sneha Mehta</strong><span>Higher Studies · VIT · MS Abroad Guidance</span></div>
+            <div class="applicant-actions"><button class="btn-sm">View</button><button class="btn-accept" onclick="showToast('Sneha accepted ✓','success')">Accept</button><button class="btn-reject" onclick="showToast('Rejected','fail')">Reject</button></div>
+          </div>
+          <div class="applicant-row">
+            <div class="applicant-avatar">VR</div>
+            <div class="applicant-info"><strong>Vikram Rao</strong><span>Finance · NMIMS · Finance Career Mentorship</span></div>
+            <div class="applicant-actions"><button class="btn-sm">View</button><button class="btn-accept" onclick="showToast('Vikram accepted ✓','success')">Accept</button><button class="btn-reject" onclick="showToast('Rejected','fail')">Reject</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MENTEES PANEL ── -->
+      <div class="panel" id="panel-mentees">
+        <div class="section-head"><div><h2>Mentee Directory</h2><p>All your active mentees and their progress.</p></div></div>
+        <div class="mentee-grid">
+          <div class="mentee-card">
+            <div class="mentee-avatar">AS</div><div class="mentee-name">Arjun Sharma</div><div class="mentee-field">Campus Placements · IIT Bombay</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:75%"></div></div>
+            <div class="mentee-progress-label">75% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage active">Ongoing</span><span class="mentee-stage pending">Completed</span></div>
+          </div>
+          <div class="mentee-card">
+            <div class="mentee-avatar">PN</div><div class="mentee-name">Priya Nair</div><div class="mentee-field">Data Science · NIT Trichy</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:50%;background:var(--amber)"></div></div>
+            <div class="mentee-progress-label">50% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage active">Ongoing</span><span class="mentee-stage pending">Completed</span></div>
+          </div>
+          <div class="mentee-card">
+            <div class="mentee-avatar">RP</div><div class="mentee-name">Riya Patel</div><div class="mentee-field">Software Engineering · DAIICT</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:90%;background:var(--green)"></div></div>
+            <div class="mentee-progress-label">90% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage done">Ongoing</span><span class="mentee-stage active">Completed</span></div>
+          </div>
+          <div class="mentee-card">
+            <div class="mentee-avatar">RK</div><div class="mentee-name">Rahul Kumar</div><div class="mentee-field">Entrepreneurship · BITS Pilani</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:30%;background:var(--red)"></div></div>
+            <div class="mentee-progress-label">30% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage active">Ongoing</span><span class="mentee-stage pending">Completed</span></div>
+          </div>
+          <div class="mentee-card">
+            <div class="mentee-avatar">SM</div><div class="mentee-name">Sneha Mehta</div><div class="mentee-field">MS Abroad · VIT</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:60%"></div></div>
+            <div class="mentee-progress-label">60% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage active">Ongoing</span><span class="mentee-stage pending">Completed</span></div>
+          </div>
+          <div class="mentee-card">
+            <div class="mentee-avatar">VR</div><div class="mentee-name">Vikram Rao</div><div class="mentee-field">Finance · NMIMS</div>
+            <div class="mentee-progress-bar"><div class="mentee-progress-fill" style="width:45%;background:var(--amber)"></div></div>
+            <div class="mentee-progress-label">45% goal progress</div>
+            <div class="mentee-stages"><span class="mentee-stage done">Applied</span><span class="mentee-stage done">Accepted</span><span class="mentee-stage active">Ongoing</span><span class="mentee-stage pending">Completed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GOALS PANEL ── -->
+      <div class="panel" id="panel-goals">
+        <div class="section-head"><div><h2>Goal Tracker</h2><p>Track mentorship goals set with each mentee.</p></div><button class="btn-new" onclick="showToast('Goal added','success')">+ Add Goal</button></div>
+        <div class="two-col">
+            <div class="card-box">
+            <div class="card-box-title">Arjun Sharma's Goals</div>
+            <div class="goal-item"><div class="goal-check done" onclick="toggleGoal(this)">✓</div><div class="goal-body"><strong>Update LinkedIn profile</strong><span>Add internship experience and skills</span><span class="goal-due">Completed</span></div></div>
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div class="goal-body"><strong>Apply to 10 companies</strong><span>Target product-based companies</span><span class="goal-due">Due: Dec 15</span></div></div>
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div class="goal-body"><strong>Complete DSA revision</strong><span>Focus on graphs and DP</span><span class="goal-due">Due: Dec 10</span></div></div>
+          </div>
+          <div class="card-box">
+            <div class="card-box-title">Riya Patel's Goals</div>
+            <div class="goal-item"><div class="goal-check done" onclick="toggleGoal(this)">✓</div><div class="goal-body"><strong>Build portfolio website</strong><span>Showcase 3 projects minimum</span><span class="goal-due">Completed</span></div></div>
+            <div class="goal-item"><div class="goal-check done" onclick="toggleGoal(this)">✓</div><div class="goal-body"><strong>Attend 2 mock interviews</strong><span>Practice behavioural + technical</span><span class="goal-due">Completed</span></div></div>
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div class="goal-body"><strong>Get first job offer</strong><span>Target software engineering roles</span><span class="goal-due">Due: Jan 2027</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FEEDBACK PANEL ── -->
+      <div class="panel" id="panel-feedback">
+        <div class="section-head"><div><h2>Feedback</h2><p>Reviews left by your mentees after sessions.</p></div></div>
+        <div class="two-col">
+          <div>
+            <div class="feedback-card"><div class="feedback-header"><div class="feedback-avatar">AS</div><div class="feedback-meta"><strong>Arjun Sharma</strong><span>Career Path · Dec 1, 2026</span></div><div class="stars">★★★★★</div></div><p class="feedback-text">"Incredibly insightful. Helped me map a clear roadmap for placements at product companies."</p></div>
+            <div class="feedback-card"><div class="feedback-header"><div class="feedback-avatar">RP</div><div class="feedback-meta"><strong>Riya Patel</strong><span>Resume Review · Nov 28, 2026</span></div><div class="stars">★★★★☆</div></div><p class="feedback-text">"Very detailed feedback on my resume. Got shortlisted at 2 companies after the session."</p></div>
+          </div>
+          <div>
+            <div class="feedback-card"><div class="feedback-header"><div class="feedback-avatar">PN</div><div class="feedback-meta"><strong>Priya Nair</strong><span>Data Science · Nov 25, 2026</span></div><div class="stars">★★★★★</div></div><p class="feedback-text">"Best session I've had. Clear explanation of how to break into ML roles without a masters."</p></div>
+            <div class="feedback-card"><div class="feedback-header"><div class="feedback-avatar">SM</div><div class="feedback-meta"><strong>Sneha Mehta</strong><span>MS Abroad · Nov 20, 2026</span></div><div class="stars">★★★★★</div></div><p class="feedback-text">"Gave me a realistic picture of MS applications and helped me shortlist universities strategically."</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── OPPORTUNITIES PANEL ── -->
+      <div class="panel" id="panel-opportunities">
+        <div class="section-head"><div><h2>My Opportunities</h2><p>Mentorship opportunities you've created.</p></div><button class="btn-new" onclick="openModal()">+ New Opportunity</button></div>
+        <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="Search opportunities by title or domain…" oninput="searchOpportunities(this.value)"/></div>
+        <div class="opp-card"><div class="opp-info"><h3>Campus Placement Guidance</h3><p>Helping students prepare for placements at product-based companies.</p><div class="opp-meta"><span class="session-tag tag-progress">Open</span><span class="session-tag tag-upcoming">3/5 slots</span></div></div><div class="opp-actions"><button class="btn-sm primary" onclick="showPanel('applicants')">View Applicants</button><button class="btn-sm" onclick="showToast('Closed','success')">Close</button></div></div>
+        <div class="opp-card"><div class="opp-info"><h3>ML & Data Science Mentorship</h3><p>Guidance on breaking into data science and ML roles.</p><div class="opp-meta"><span class="session-tag tag-progress">Open</span><span class="session-tag tag-upcoming">1/3 slots</span></div></div><div class="opp-actions"><button class="btn-sm primary" onclick="showPanel('applicants')">View Applicants</button><button class="btn-sm" onclick="showToast('Closed','success')">Close</button></div></div>
+        <div class="opp-card"><div class="opp-info"><h3>Startup & Entrepreneurship Guidance</h3><p>For students looking to build their own startup.</p><div class="opp-meta"><span class="session-tag tag-pending">Closed</span><span class="session-tag" style="color:var(--muted);border-color:var(--border)">5/5 slots</span></div></div><div class="opp-actions"><button class="btn-sm" onclick="showToast('Reopened','success')">Reopen</button></div></div>
+      </div>
+
+      <!-- ── ACTIVITY PANEL ── -->
+      <div class="panel" id="panel-activity">
+        <div class="section-head"><div><h2>Activity Feed</h2><p>Everything happening across your mentorships.</p></div></div>
+        <div class="card-box">
+          <div class="activity-item"><div class="activity-dot" style="background:var(--green)"></div><div><div class="activity-text"><strong>Arjun Sharma</strong> accepted your mentorship offer</div><div class="activity-time">2 hours ago</div></div></div>
+          <div class="activity-item"><div class="activity-dot" style="background:var(--cobalt2)"></div><div><div class="activity-text"><strong>Priya Nair</strong> applied for ML & Data Science Mentorship</div><div class="activity-time">5 hours ago</div></div></div>
+          <div class="activity-item"><div class="activity-dot" style="background:var(--amber)"></div><div><div class="activity-text"><strong>Riya Patel</strong> submitted goal update — "Portfolio website launched"</div><div class="activity-time">Yesterday, 4:30 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot" style="background:var(--green)"></div><div><div class="activity-text"><strong>Sneha Mehta</strong> left a 5-star review after your MS Abroad session</div><div class="activity-time">Yesterday, 2:00 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot" style="background:var(--cobalt2)"></div><div><div class="activity-text"><strong>Rahul Kumar</strong> applied for Startup & Entrepreneurship Guidance</div><div class="activity-time">2 days ago</div></div></div>
+          <div class="activity-item"><div class="activity-dot" style="background:var(--muted)"></div><div><div class="activity-text">You created <strong>ML & Data Science Mentorship</strong></div><div class="activity-time">Nov 20, 2026</div></div></div>
+        </div>
+      </div>
+
+      <!-- ── TOOLS PANEL ── -->
+      <div class="panel" id="panel-tools">
+        <div class="section-head"><div><h2>Tools & Resources</h2><p>Helpful tools to run better mentorship sessions.</p></div></div>
+        <div class="tools-grid">
+          <a class="tool-card" href="#" onclick="showToast('Opening session planner…','success')"><span class="tool-icon">📅</span><div class="tool-title">Session Planner</div><div class="tool-desc">Plan and structure your sessions with a guided template.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening goal template…','success')"><span class="tool-icon">🎯</span><div class="tool-title">Goal Setting Template</div><div class="tool-desc">Set SMART goals with your mentees and track progress.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening resume guide…','success')"><span class="tool-icon">📄</span><div class="tool-title">Resume Review Guide</div><div class="tool-desc">A structured checklist for reviewing mentee resumes.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening interview bank…','success')"><span class="tool-icon">🎤</span><div class="tool-title">Mock Interview Bank</div><div class="tool-desc">300+ interview questions across domains.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening feedback form…','success')"><span class="tool-icon">📝</span><div class="tool-title">Feedback Form Builder</div><div class="tool-desc">Create and share post-session feedback forms.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening resource library…','success')"><span class="tool-icon">📚</span><div class="tool-title">Resource Library</div><div class="tool-desc">Curated articles, videos, and courses to share.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening roadmap builder…','success')"><span class="tool-icon">🗺️</span><div class="tool-title">Career Roadmap Builder</div><div class="tool-desc">Build visual career roadmaps for each mentee.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening notes…','success')"><span class="tool-icon">🗒️</span><div class="tool-title">Session Notes</div><div class="tool-desc">Keep private notes for each mentee per session.</div></a>
+          <a class="tool-card" href="#" onclick="showToast('Opening progress report…','success')"><span class="tool-icon">📊</span><div class="tool-title">Progress Reports</div><div class="tool-desc">Generate monthly progress reports for your mentees.</div></a>
+        </div>
+      </div>
+
+      <!-- ── NOTIFICATIONS PANEL ── -->
+      <div class="panel" id="panel-notifications">
+        <div class="section-head"><div><h2>Notifications</h2><p>Stay updated on everything happening across your mentorships.</p></div><button class="btn-sm" onclick="showToast('All marked as read ✓','success')">Mark all as read</button></div>
+        <div class="card-box">
+          <div class="notif-item notif-unread"><div class="notif-icon" style="background:rgba(45,212,160,0.12);">✅</div><div class="notif-body"><strong>Arjun Sharma accepted your offer</strong><p>Arjun accepted your Campus Placement Guidance offer. Schedule your first session.</p><div class="notif-time">2 hours ago</div></div></div>
+          <div class="notif-item notif-unread"><div class="notif-icon" style="background:rgba(74,132,245,0.12);">📋</div><div class="notif-body"><strong>New application — Priya Nair</strong><p>Priya applied for your ML & Data Science Mentorship. Review now.</p><div class="notif-time">5 hours ago</div></div></div>
+          <div class="notif-item notif-unread"><div class="notif-icon" style="background:rgba(245,166,35,0.12);">🎯</div><div class="notif-body"><strong>Goal update from Riya Patel</strong><p>Riya marked "Portfolio website launched" as complete.</p><div class="notif-time">Yesterday, 4:30 PM</div></div></div>
+          <div class="notif-item"><div class="notif-icon" style="background:rgba(245,166,35,0.1);">⭐</div><div class="notif-body"><strong>New feedback received</strong><p>Sneha Mehta left a 5-star review after your MS Abroad Guidance session.</p><div class="notif-time">Yesterday, 2:00 PM</div></div></div>
+          <div class="notif-item"><div class="notif-icon" style="background:rgba(74,132,245,0.12);">📅</div><div class="notif-body"><strong>Session reminder — Tomorrow 11:00 AM</strong><p>Resume Review with Priya Nair tomorrow. Confirm or reschedule.</p><div class="notif-time">2 days ago</div></div></div>
+        </div>
+      </div>
+
+      <!-- ── PROFILE PANEL ── -->
+      <div class="panel" id="panel-profile">
+        <div class="section-head"><div><h2>My Profile</h2><p>Keep your profile complete for faster verification and better mentee matches.</p></div></div>
+        <div class="profile-header">
+          <div class="profile-avatar-lg" id="profileAvatarLg">MK</div>
+          <div class="profile-meta"><h2 id="profileName">Mentor</h2><p id="profileRole">Mentor · ArcConnect</p></div>
+          <div class="profile-complete"><span>Profile completeness</span><strong>86%</strong></div>
+        </div>
+        <div class="card-box">
+          <div class="card-box-title">Personal Information</div>
+          <div class="profile-grid">
+            <div class="profile-field"><label>First Name</label><input type="text" id="pfFirstName" placeholder="John"/></div>
+            <div class="profile-field"><label>Last Name</label><input type="text" id="pfLastName" placeholder="Doe"/></div>
+            <div class="profile-field"><label>Email Address</label><input type="email" id="pfEmail" placeholder="you@company.com"/></div>
+            <div class="profile-field"><label>Company / Organisation</label><input type="text" id="pfCompany" placeholder="e.g. Google, Infosys"/></div>
+            <div class="profile-field"><label>LinkedIn Profile URL</label><input type="url" id="pfLinkedin" placeholder="https://linkedin.com/in/yourname"/></div>
+            <div class="profile-field"><label>Years of Experience</label>
+              <select id="pfYears"><option value="">Select…</option><option>2 years</option><option>3 years</option><option>5 years</option><option>6–8 years</option><option>9–12 years</option><option>13+ years</option></select>
+            </div>
+            <div class="profile-field"><label>Monthly Availability</label>
+              <select id="pfAvail"><option value="">Select…</option><option>2 hours / month</option><option>4 hours / month</option><option>6 hours / month</option><option>8+ hours / month</option></select>
+            </div>
+            <div class="profile-field profile-full"><label>Professional Bio</label><textarea id="pfBio" placeholder="Describe your background, role, and what you bring as a mentor…"></textarea></div>
+            <div class="profile-field profile-full">
+              <label>Expertise Tags</label>
+              <div class="expertise-wrap" onclick="document.getElementById('expInput').focus()">
+                <div id="expDisplay"></div>
+                <input type="text" id="expInput" placeholder="Type and press Enter — e.g. Placements, Data Science"/>
+              </div>
+              <p style="font-size:0.72rem;color:var(--muted);margin-top:0.35rem;">Add up to 5 tags. Used to match you with relevant applicants and sessions.</p>
+            </div>
+          </div>
+          <button class="btn-save-profile" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── OPPORTUNITY MODAL ── -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2 class="modal-title">Create New Opportunity</h2>
+      <div class="modal-field"><label>Title</label><input type="text" id="oppTitle" placeholder="e.g. Campus Placement Guidance"/></div>
+      <div class="modal-field"><label>Description</label><textarea id="oppDesc" placeholder="Describe what students will gain…"></textarea></div>
+      <div class="modal-field"><label>Domain</label>
+        <select id="oppDomain">
+          <option value="">Select domain…</option>
+          <option>Campus Placements</option><option>Internships</option>
+          <option>Higher Studies (MS/MBA)</option><option>Entrepreneurship</option>
+          <option>Software Engineering</option><option>Data Science & AI</option>
+          <option>Finance & Banking</option><option>Consulting</option>
+          <option>Design & UX</option><option>Core Engineering</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Available Slots</label><input type="number" id="oppSlots" placeholder="e.g. 5" min="1" max="20"/></div>
+      <div class="modal-field"><label>Participation Criteria</label><input type="text" id="oppCriteria" placeholder="e.g. Final year students only, min 7.5 CGPA"/></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveOpportunity()">Publish Opportunity</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/mentor-dashboard.js"></script>
+</body>
+</html>
+

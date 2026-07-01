@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — ArcConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/signup.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">Arc<span>Connect</span></a>
+    <a href="login.html" class="nav-link">Already have an account? <strong>Sign in</strong></a>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-bg"></div>
+
+    <div class="auth-wrap">
+
+      <!-- LEFT PANEL -->
+      <div class="auth-panel">
+        <div class="panel-top">
+          <p class="panel-eyebrow mentor" id="panelEyebrow">For Alumni</p>
+          <h2 class="panel-title">
+            Join as a <em class="mentor" id="panelTitleEm">mentor</em><br/>and shape careers
+          </h2>
+          <p class="panel-desc" id="panelDesc">
+            Share your experience with students who need it most. Create opportunities, set your own criteria, and build a legacy that goes beyond your own career.
+          </p>
+
+          <div class="strict-notice visible" id="strictNotice">
+            <p><strong>⚠ Mentor applications are reviewed</strong>
+            We verify credentials and experience before approval. Please ensure your profile is complete and accurate.</p>
+          </div>
+
+          <ul class="panel-perks" id="perkList">
+            <li><span class="perk-dot mentor"></span> Create mentorship opportunities</li>
+            <li><span class="perk-dot mentor"></span> Define mentorship details and participation criteria</li>
+            <li><span class="perk-dot mentor"></span> Review incoming applications</li>
+            <li><span class="perk-dot mentor"></span> Accept or reject applicants</li>
+            <li><span class="perk-dot mentor"></span> Manage your participants</li>
+          </ul>
+        </div>
+        <div class="panel-bottom">
+          Already have an account? <a href="login.html">Sign in here</a>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="auth-form-wrap">
+
+        <h1 class="form-heading">Create your account</h1>
+        <p class="form-subhead" id="formSubhead">Mentor applications are reviewed for quality. Fill every field carefully.</p>
+
+        <!-- Role Toggle -->
+        <div class="role-toggle-wrap">
+          <span class="role-toggle-label">I am registering as a</span>
+          <div class="role-toggle">
+            <button type="button" id="toggleMentor"  class="toggle-option active-mentor" onclick="setRole('mentor')">🎓 Mentor (Alumni)</button>
+            <button type="button" id="toggleStudent" class="toggle-option"               onclick="setRole('student')">📚 Student</button>
+          </div>
+        </div>
+
+        <!-- Profile completeness bar (mentor only) -->
+        <div class="completeness-bar-wrap visible" id="completenessWrap">
+          <div class="completeness-top">
+            <span>Profile completeness</span>
+            <strong id="completenessLabel" style="color:var(--error)">0%</strong>
+          </div>
+          <div class="c-bar"><div class="c-fill" id="cFill" style="width:0%"></div></div>
+        </div>
+
+        <form id="signupForm" onsubmit="handleSignup(event)" novalidate>
+
+          <!-- BASIC INFO -->
+          <p class="form-section-label" id="basicLabel">Basic Information</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" placeholder="John" autocomplete="given-name" oninput="updateCompleteness()"/>
+              <p class="field-error" id="firstNameError"></p>
+            </div>
+            <div class="field">
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" placeholder="Doe" autocomplete="family-name" oninput="updateCompleteness()"/>
+              <p class="field-error" id="lastNameError"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" oninput="updateCompleteness()"/>
+            <p class="field-hint" id="emailHint">Use your company email for faster verification.</p>
+            <p class="field-error" id="emailError"></p>
+          </div>
+
+          <div class="field">
+            <label for="institution" id="institutionLabel">Company / Organisation</label>
+            <input type="text" id="institution" placeholder="e.g. Google, Infosys, TCS" autocomplete="organization" oninput="updateCompleteness()"/>
+            <p class="field-error" id="institutionError"></p>
+          </div>
+
+          <!-- LinkedIn (both roles) -->
+          <div class="field">
+            <label for="linkedin">LinkedIn profile URL</label>
+            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourname" oninput="updateCompleteness()"/>
+            <p class="field-hint" id="linkedinHint">Required for credential verification.</p>
+            <p class="field-error" id="linkedinError"></p>
+          </div>
+
+          <!-- MENTOR-ONLY FIELDS -->
+          <div id="mentorFields">
+            <p class="form-section-label">Professional Credentials</p>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="yearsExp">Years of experience</label>
+                <select id="yearsExp" oninput="updateCompleteness()">
+                  <option value="">Select…</option>
+                  <option value="2">2 years</option>
+                  <option value="3">3 years</option>
+                  <option value="4">4 years</option>
+                  <option value="5">5 years</option>
+                  <option value="6">6–8 years</option>
+                  <option value="9">9–12 years</option>
+                  <option value="13">13+ years</option>
+                </select>
+                <p class="field-hint">Minimum 2 years required.</p>
+                <p class="field-error" id="yearsExpError"></p>
+              </div>
+              <div class="field">
+                <label for="availability">Monthly availability</label>
+                <select id="availability" oninput="updateCompleteness()">
+                  <option value="">Select…</option>
+                  <option value="2">2 hours / month (minimum)</option>
+                  <option value="4">4 hours / month</option>
+                  <option value="6">6 hours / month</option>
+                  <option value="8">8+ hours / month</option>
+                </select>
+                <p class="field-hint">At least 2 hrs/month required.</p>
+                <p class="field-error" id="availabilityError"></p>
+              </div>
+            </div>
+
+            <p class="form-section-label">Profile & Motivation</p>
+
+            <div class="field">
+              <label for="bio">Professional bio</label>
+              <textarea id="bio" placeholder="Briefly describe your career background, current role, and what you bring as a mentor…" oninput="updateCompleteness(); countWords('bio','bioCount',30)"></textarea>
+              <div class="word-count" id="bioCount">0 / 30 words minimum</div>
+              <p class="field-error" id="bioError"></p>
+            </div>
+
+            <div class="field">
+              <label for="motivation">Why do you want to mentor?</label>
+              <textarea id="motivation" placeholder="Describe your genuine motivation for guiding students. Avoid mentioning paid services, coaching packages, or recruitment…" oninput="updateCompleteness(); countWords('motivation','motivationCount',20)"></textarea>
+              <div class="word-count" id="motivationCount">0 / 20 words minimum</div>
+              <p class="field-hint">Profiles mentioning paid services or MLM will be rejected.</p>
+              <p class="field-error" id="motivationError"></p>
+            </div>
+          </div>
+
+          <!-- EXPERTISE / DEPARTMENT TAGS -->
+          <p class="form-section-label" id="tagsLabel">Areas of Expertise</p>
+          <div class="field">
+            <label id="extraLabel">Expertise tags</label>
+            <div class="tag-input-wrap" id="tagWrap" onclick="document.getElementById('tagInput').focus()">
+              <div id="tagsDisplay"></div>
+              <input type="text" id="tagInput" placeholder="Type and press Enter — e.g. Placements, Data Science" oninput="updateCompleteness()"/>
+            </div>
+            <p class="tag-hint" id="tagHint">Add up to 5 tags. Press Enter or comma to add.</p>
+            <p class="field-error" id="extraError"></p>
+          </div>
+
+          <!-- ACCOUNT SECURITY -->
+          <p class="form-section-label">Account Security</p>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value); updateCompleteness()"/>
+              <button type="button" class="toggle-pass" onclick="togglePassword('password','eyeIcon1')">
+                <svg id="eyeIcon1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <p class="strength-label" id="strengthLabel"></p>
+            <p class="field-error" id="passError"></p>
+          </div>
+
+          <div class="field">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="password-wrap">
+              <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" oninput="updateCompleteness()"/>
+              <button type="button" class="toggle-pass" onclick="togglePassword('confirmPassword','eyeIcon2')">
+                <svg id="eyeIcon2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <p class="field-error" id="confirmPassError"></p>
+          </div>
+
+          <!-- TERMS -->
+          <div class="terms-row">
+            <input type="checkbox" id="terms" onchange="updateCompleteness()"/>
+            <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+          </div>
+          <p class="field-error" id="termsError"></p>
+
+          <!-- Mentor-only conduct checkbox -->
+          <div class="terms-row" id="conductRow" style="margin-top:0.5rem;">
+            <input type="checkbox" id="conduct" onchange="updateCompleteness()"/>
+            <label for="conduct">I confirm I am not using this platform to pitch paid services, coaching packages, or recruitment. I commit to a minimum of 2 hours/month.</label>
+          </div>
+          <p class="field-error" id="conductError"></p>
+
+          <button type="submit" class="btn-submit mentor" id="submitBtn">
+            Create Mentor Account
+          </button>
+
+        </form>
+
+        <div class="divider"><span>or</span></div>
+        <p class="form-footer">Already have an account? <a href="login.html">Sign in</a></p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/signup.js"></script>
+</body>
+</html>

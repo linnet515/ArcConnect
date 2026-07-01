@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ArcConnect — Mentorship Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="#" class="logo">Arc<span>Connect</span></a>
+    <ul>
+      <li><a href="#why">Why ArcConnect</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#domains">Domains</a></li>
+      <li><a href="login.html" class="nav-signin">Sign in</a></li>
+      <li><a href="signup.html" class="nav-register">Register </a></li>
+    </ul>
+  </nav>
+
+>  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <!-- Floating particles -->
+    <div class="particle" style="width:4px;height:4px;left:28%;top:58%;animation-delay:0s;animation-duration:6s;"></div>
+    <div class="particle" style="width:3px;height:3px;left:67%;top:52%;animation-delay:1.8s;animation-duration:8s;"></div>
+    <div class="particle" style="width:5px;height:5px;left:50%;top:72%;animation-delay:3.2s;animation-duration:5.5s;"></div>
+    <div class="particle" style="width:3px;height:3px;left:38%;top:63%;animation-delay:0.6s;animation-duration:9s;"></div>
+    <div class="particle" style="width:4px;height:4px;left:72%;top:68%;animation-delay:2.4s;animation-duration:7s;background:#F5A623;"></div>
+
+    <p class="eyebrow">Alumni × Student Mentorship</p>
+    <h1>Where guidance <em>finds</em><br/>its direction</h1>
+    <p class="hero-sub">ArcConnect bridges alumni and students — turning career wisdom into real opportunity through structured, purposeful mentorship.</p>
+
+    <div class="hero-actions">
+      <a href="#register" class="btn-primary">Register free</a>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+
+    <!-- Signature: Bidirectional Arc -->
+    <div class="arc-wrapper">
+      <svg id="arc-svg" viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg"
+           aria-label="Bidirectional connection arc between Alumni and Student">
+        <defs>
+          <linearGradient id="arcGradFwd" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#2D6CDF"/>
+            <stop offset="55%"  stop-color="#4A84F5"/>
+            <stop offset="100%" stop-color="#F5A623"/>
+          </linearGradient>
+          <linearGradient id="arcGradRev" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%"   stop-color="#F5A623"/>
+            <stop offset="55%"  stop-color="#f7c05a"/>
+            <stop offset="100%" stop-color="#2D6CDF"/>
+          </linearGradient>
+          <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#2D6CDF" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#2D6CDF" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#F5A623" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#F5A623" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Glow halos -->
+        <circle cx="100" cy="170" r="55" fill="url(#glow1)"/>
+        <circle cx="600" cy="170" r="55" fill="url(#glow2)"/>
+
+        <!-- Pulse rings -->
+        <circle class="node-ring node-ring-left"  cx="100" cy="170" r="22"/>
+        <circle class="node-ring node-ring-right" cx="600" cy="170" r="22"/>
+
+        <!-- Forward arc: Alumni → Student -->
+        <path class="arc-path-fwd" d="M100,170 C100,45 600,45 600,170" filter="url(#glow)"/>
+        <!-- Reverse arc: Student → Alumni -->
+        <path class="arc-path-rev" d="M600,170 C600,295 100,295 100,170"/>
+
+        <!-- Hidden paths for dot motion -->
+        <path id="fwdPath" d="M100,170 C100,45 600,45 600,170"   fill="none" stroke="none"/>
+        <path id="revPath" d="M600,170 C600,295 100,295 100,170" fill="none" stroke="none"/>
+
+        <!-- Travelling dot: Alumni → Student -->
+        <circle r="5" fill="#ffffff" opacity="0.95" filter="url(#glow)">
+          <animateMotion dur="2.4s" repeatCount="indefinite" begin="2.2s">
+            <mpath href="#fwdPath"/>
+          </animateMotion>
+        </circle>
+        <!-- Travelling dot: Student → Alumni -->
+        <circle r="4" fill="#F5A623" opacity="0.85" filter="url(#glow)">
+          <animateMotion dur="2.4s" repeatCount="indefinite" begin="3.4s">
+            <mpath href="#revPath"/>
+          </animateMotion>
+        </circle>
+
+        <!-- Left node: Alumni -->
+        <circle cx="100" cy="170" r="16" fill="#0A0F1E" stroke="#2D6CDF" stroke-width="2.5" filter="url(#glow)"/>
+        <circle cx="100" cy="170" r="7"  fill="#2D6CDF"/>
+        <text class="node-label" x="100" y="202" text-anchor="middle">Alumni</text>
+
+        <!-- Right node: Student -->
+        <circle cx="600" cy="170" r="16" fill="#0A0F1E" stroke="#F5A623" stroke-width="2.5" filter="url(#glow)"/>
+        <circle cx="600" cy="170" r="7"  fill="#F5A623"/>
+        <text class="node-label" x="600" y="202" text-anchor="middle">Student</text>
+
+        <!-- Direction labels -->
+        <text x="350" y="58"  text-anchor="middle" font-family="Inter" font-size="10" fill="#4A84F5" letter-spacing="0.1em">MENTOR GUIDES</text>
+        <text x="350" y="228" text-anchor="middle" font-family="Inter" font-size="10" fill="#F5A623" letter-spacing="0.1em">STUDENT CONNECTS</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── STATS bluff ── -->
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-number">2<span>K+</span></div>
+      <div class="stat-label">Alumni Mentors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">8<span>K+</span></div>
+      <div class="stat-label">Students Guided</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">94<span>%</span></div>
+      <div class="stat-label">Placement Rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">12<span>+</span></div>
+      <div class="stat-label">Domains Covered</div>
+    </div>
+  </div>
+
+  <!-- ── WHY ARCCONNECT ── -->
+  <section class="section" id="why">
+    <p class="section-label">Why ArcConnect</p>
+    <h2>Built for real mentorship, not just networking</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(45,108,223,0.12);">🎯</div>
+        <h3>Structured opportunities</h3>
+        <p>Every mentorship has a defined scope, clear criteria, and a stated goal — so both mentor and student know exactly what to expect before they begin.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(245,166,35,0.1);">⚡</div>
+        <h3>Fast, transparent matching</h3>
+        <p>Apply in seconds, not hours. Mentors review and respond quickly, and students are never left guessing — every status update is visible in real time.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(45,212,160,0.1);">🔒</div>
+        <h3>Role-based access control</h3>
+        <p>Mentors manage only the opportunities they create. Students apply and track their own progress. Every action is permission-gated, so nothing falls into the wrong hands.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(45,108,223,0.12);">📋</div>
+        <h3>Full lifecycle management</h3>
+        <p>From posting an opportunity to accepting applicants to completing the mentorship — every stage is tracked and fully managed inside the platform, with nothing falling through the cracks.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(245,166,35,0.1);">🌐</div>
+        <h3>Multi-domain coverage</h3>
+        <p>Placements, higher studies, internships, entrepreneurship and more — alumni from every career path are here, ready to guide students toward whichever direction they choose to pursue.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(45,212,160,0.1);">📊</div>
+        <h3>Real-time dashboards</h3>
+        <p>Mentors and students each get a tailored dashboard built for their role. No clutter, no irrelevant data — only the actions and information that actually matter to you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="section" id="how">
+    <p class="section-label">The process</p>
+    <h2>From opportunity to outcome — three clear steps</h2>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-role mentor">Alumni</span>
+        <h3>Post a mentorship opportunity</h3>
+        <p>Define the domain, participation criteria, number of available slots, and what students can genuinely expect to gain from working with you.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-role student">Student</span>
+        <h3>Discover, review, and apply</h3>
+        <p>Browse open opportunities by domain or keyword, read the full details, check whether you meet the criteria, and apply with a single click.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-role both">Both</span>
+        <h3>Connect and grow together</h3>
+        <p>Mentors accept the right applicants, students get notified instantly, and the mentorship begins — with progress fully tracked and visible on both sides.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DOMAINS ── -->
+  <section class="section" id="domains">
+    <p class="section-label">What you can explore</p>
+    <h2>Every path has an alumni who's been there</h2>
+    <div class="domains-wrap">
+      <div class="domain-pill"><span class="dot" style="background:#4A84F5"></span> Campus Placements</div>
+      <div class="domain-pill"><span class="dot" style="background:#F5A623"></span> Internships</div>
+      <div class="domain-pill"><span class="dot" style="background:#2DD4A0"></span> Higher Studies (MS/MBA)</div>
+      <div class="domain-pill"><span class="dot" style="background:#e06cf5"></span> Entrepreneurship</div>
+      <div class="domain-pill"><span class="dot" style="background:#4A84F5"></span> Software Engineering</div>
+      <div class="domain-pill"><span class="dot" style="background:#F5A623"></span> Product Management</div>
+      <div class="domain-pill"><span class="dot" style="background:#2DD4A0"></span> Data Science & AI</div>
+      <div class="domain-pill"><span class="dot" style="background:#e06cf5"></span> Research & Academia</div>
+      <div class="domain-pill"><span class="dot" style="background:#4A84F5"></span> Finance & Banking</div>
+      <div class="domain-pill"><span class="dot" style="background:#F5A623"></span> Consulting</div>
+      <div class="domain-pill"><span class="dot" style="background:#2DD4A0"></span> Design & UX</div>
+      <div class="domain-pill"><span class="dot" style="background:#e06cf5"></span> Core Engineering</div>
+    </div>
+  </section>
+
+  <!-- ── REGISTER ── -->
+  <section class="register-section" id="register">
+    <div class="register-header">
+      <span class="section-label">Register</span>
+      <h2>Choose your role to get started</h2>
+      <p>One platform, two journeys. Pick the path that matches where you are right now.</p>
+    </div>
+    <div class="roles-grid">
+
+      <div class="role-card mentor">
+        <span class="role-badge">For Alumni</span>
+        <h3>Guide the next generation</h3>
+        <p>You've already walked the road students are just starting. Share your experience, shape careers, and give back to your community — entirely on your own terms and timeline.</p>
+        <ul class="feature-list">
+          <li><span class="feat-dot"></span> Post mentorship opportunities with custom criteria</li>
+          <li><span class="feat-dot"></span> Set your own slots and availability</li>
+          <li><span class="feat-dot"></span> Review and select the right applicants</li>
+          <li><span class="feat-dot"></span> Manage all your mentees from one dashboard</li>
+          <li><span class="feat-dot"></span> Give back to your alma mater community</li>
+        </ul>
+        <a href="signup.html?role=mentor" class="register-btn">Register as Mentor</a>
+        <span class="already-have">Already have an account? <a href="login.html">Sign in</a></span>
+      </div>
+
+      <div class="role-card student">
+        <span class="role-badge">For Students</span>
+        <h3>Find your direction</h3>
+        <p>Alumni who've been exactly where you are now are ready to guide you forward. Get real, honest advice on placements, internships, higher studies, and what actually comes next.</p>
+        <ul class="feature-list">
+          <li><span class="feat-dot"></span> Discover mentorship opportunities by domain</li>
+          <li><span class="feat-dot"></span> Apply with a single click — no lengthy forms</li>
+          <li><span class="feat-dot"></span> Track your application status in real time</li>
+          <li><span class="feat-dot"></span> Learn from alumni with direct experience</li>
+          <li><span class="feat-dot"></span> Build connections that last beyond college</li>
+        </ul>
+        <a href="signup.html?role=student" class="register-btn">Register as Student</a>
+        <span class="already-have">Already have an account? <a href="login.html">Sign in</a></span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ── -->
+  <div class="cta-banner">
+    <h2>Your next mentor — or mentee — is already here</h2>
+    <p>Join thousands of alumni and students already building meaningful connections on ArcConnect.</p>
+    <div class="cta-actions">
+      <a href="signup.html" class="btn-primary">Register free</a>
+      <a href="login.html"  class="btn-secondary">Sign in</a>
+    </div>
+  </div>
+
+  
+  <footer>
+    <a href="#" class="footer-logo">Arc<span>Connect</span></a>
+    <div class="footer-links">
+      <a href="#why">Why ArcConnect</a>
+      <a href="#how">How it works</a>
+      <a href="signup.html">Register</a>
+      <a href="login.html">Sign in</a>
+    </div>
+    <p>© 2026 ArcConnect. All rights reserved.</p>
+  </footer>
+
+  <!-- ── AI ASSISTANT ── -->
+  <div class="ai-bubble">
+    <div class="ai-window" id="aiWindow">
+      <div class="ai-header">
+        <div class="ai-avatar">✦</div>
+        <div class="ai-header-text">
+          <strong>Arc Assistant</strong>
+          <span>● Online</span>
+        </div>
+        <button class="ai-close" onclick="toggleChat()">✕</button>
+      </div>
+
+      <div class="ai-messages" id="aiMessages">
+        <div class="ai-msg bot">Hi! I'm the Arc Assistant. Ask me anything about ArcConnect — how it works, who it's for, or how to get started. 👋</div>
+      </div>
+
+      <div class="ai-chips" id="aiChips">
+        <button class="ai-chip" onclick="sendChip(this)">What is ArcConnect?</button>
+        <button class="ai-chip" onclick="sendChip(this)">Who can join?</button>
+        <button class="ai-chip" onclick="sendChip(this)">How do I apply for mentorship?</button>
+        <button class="ai-chip" onclick="sendChip(this)">Is it free?</button>
+      </div>
+
+      <div class="ai-input-row">
+        <input class="ai-input" id="aiInput" type="text"
+               placeholder="Ask about ArcConnect…"
+               onkeydown="if(event.key==='Enter') sendMessage()"/>
+        <button class="ai-send" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="ai-toggle" onclick="toggleChat()" aria-label="Open AI assistant">
+      <div class="ai-badge"></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script src="js/assistant.js"></script>
+</body>
+</html> 
