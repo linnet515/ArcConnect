@@ -8,6 +8,7 @@ from app.models.user import User
 from app.schemas.opportunity import OpportunityCreate, OpportunityUpdate, OpportunityOut
 from app.auth.jwt import get_current_user, require_mentor
 
+
 router = APIRouter(prefix="/opportunities", tags=["opportunities"])
 
 
