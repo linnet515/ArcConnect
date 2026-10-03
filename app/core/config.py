@@ -6,7 +6,7 @@ import os
 class Settings(BaseSettings):
     app_name: str = "ArcConnect API"
     debug: bool = False
-    database_url: str = "sqlite:///./arcconnect.db"
+    database_url: str = "postgresql://postgres:23/*-18*/-5-*/@localhost:5432/ArcConnect_db"
     secret_key: str = os.getenv("SESSION_SECRET", "arcconnect-super-secret-key-change-in-prod")
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24 * 7
