@@ -16,6 +16,11 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
+    """Run database migrations in offline mode using the configured SQLAlchemy URL.
+    Parameters:
+        - None: This function does not accept any parameters.
+    Returns:
+        - None: Executes the configured migrations without returning a value."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -29,6 +34,11 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
+    """Run database migrations in online mode using a configured SQLAlchemy connection.
+    Parameters:
+        - None: This function does not accept any parameters.
+    Returns:
+        - None: Executes the configured database migrations without returning a value."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
