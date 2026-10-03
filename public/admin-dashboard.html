@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARC Connect · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<aside>
+  <div class="brand">ARC Connect</div>
+  <button class="nav on" data-v="overview">Overview</button>
+  <button class="nav" data-v="regs">Registrations <span class="badge" id="pendBadge">0</span></button>
+  <button class="nav" data-v="users">Users</button>
+  <button class="nav" data-v="opps">Opportunities</button>
+</aside>
+<main>
+  <header>
+    <h1 id="title">Overview</h1>
+    <div class="who"><span>Signed in as <b id="adminName">Admin</b> <span id="adminEmail"></span></span><button class="btn" id="logout">Sign out</button></div>
+  </header>
+  <div class="demo" id="demo">Can't reach the server, so you're seeing sample data. Changes here are not saved.</div>
+  <section id="view"></section>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// ── AUTH GUARD: login details handed over by login.html / track.html ──
+const token = localStorage.getItem('token');
+const role  = sessionStorage.getItem('arc_role') || localStorage.getItem('role');
+if (!token || role !== 'admin') location.href = 'login.html?role=admin';
+$('#adminName').textContent  = sessionStorage.getItem('arc_first_name') || 'Admin';
+$('#adminEmail').textContent = sessionStorage.getItem('arc_email') ? '(' + sessionStorage.getItem('arc_email') + ')' : '';
+$('#logout').onclick = () => { localStorage.clear(); sessionStorage.clear(); location.href = 'login.html?role=admin'; };
+
+// ── STATE + SAMPLE DATA (used only if backend is unreachable) ──
+let S = {regs:[], users:[], opps:[]}, live = true, view = 'overview';
+const demoData = () => ({
+  regs:[
+    {id:1,first_name:'Anita',last_name:'Joseph',email:'anita@alumni.edu',role:'mentor',status:'pending',created_at:'2026-09-30'},
+    {id:2,first_name:'Rahul',last_name:'Menon',email:'rahul@college.edu',role:'student',status:'pending',created_at:'2026-10-01'},
+    {id:3,first_name:'Sneha',last_name:'Nair',email:'sneha@college.edu',role:'student',status:'pending',created_at:'2026-10-02'},
+    {id:4,first_name:'Vikram',last_name:'Das',email:'vikram@alumni.edu',role:'mentor',status:'accepted',created_at:'2026-09-20'}],
+  users:[
+    {id:11,name:'Vikram Das',email:'vikram@alumni.edu',role:'mentor',status:'active'},
+    {id:12,name:'Meera Pillai',email:'meera@college.edu',role:'student',status:'active'},
+    {id:13,name:'Arun Kumar',email:'arun@college.edu',role:'student',status:'suspended'}],
+  opps:[
+    {id:21,title:'Backend career guidance',mentor:'Vikram Das',status:'open',applicants:5},
+    {id:22,title:'Resume review sessions',mentor:'Vikram Das',status:'closed',applicants:2}]
+});
+
+async function api(path, method='GET') {
+  const res = await fetch(API + path, {method, headers:{Authorization:'Bearer ' + token,'Content-Type':'application/json'}});
+  if (res.status === 401 || res.status === 403) { localStorage.clear(); location.href = 'login.html?role=admin'; throw new Error('auth'); }
+  if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail || 'Request failed');
+  return res.json();
+}
+
+async function load() {
+  try {
+    const [regs, users, opps] = await Promise.all([api('/admin/registrations'), api('/admin/users'), api('/admin/opportunities')]);
+    S = {regs, users, opps}; live = true;
+  } catch (e) {
+    if (e.message === 'auth') return;
+    if (live || !S.regs.length) S = demoData();
+    live = false;
+  }
+  $('#demo').style.display = live ? 'none' : 'block';
+  render();
+}
+
+// ── ACTIONS ──
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2600); };
+
+async function act(kind, id, action) {
+  if (action === 'delete' && !confirm('Delete this permanently? This cannot be undone.')) return;
+  const paths = {
+    regs:  `/admin/registrations/${id}/${action}`,            // accept | reject
+    users: action === 'delete' ? `/admin/users/${id}` : `/admin/users/${id}/${action}`, // suspend | activate | delete
+    opps:  action === 'delete' ? `/admin/opportunities/${id}` : `/admin/opportunities/${id}/${action}` // close | reopen | delete
+  };
+  try {
+    if (live) await api(paths[kind], action === 'delete' ? 'DELETE' : 'POST');
+    else localApply(kind, id, action);
+    toast({accept:'Registration accepted.',reject:'Registration rejected.',suspend:'User suspended.',activate:'User reactivated.',close:'Opportunity closed.',reopen:'Opportunity reopened.',delete:'Deleted.'}[action]);
+    live ? load() : render();
+  } catch (e) { toast(e.message); }
+}
+
+function localApply(kind, id, action) {
+  const list = S[kind], i = list.findIndex(x => x.id === id), it = list[i];
+  if (action === 'delete') return list.splice(i, 1);
+  const map = {accept:'accepted',reject:'rejected',suspend:'suspended',activate:'active',close:'closed',reopen:'open'};
+  it.status = map[action];
+  if (kind === 'regs' && action === 'accept')
+    S.users.push({id:Date.now(),name:it.first_name+' '+it.last_name,email:it.email,role:it.role,status:'active'});
+}
+
+// ── RENDER ──
+const tag = v => `<span class="tag ${esc(v)}">${esc(v)}</span>`;
+const btn = (k,id,a,label,cls='') => `<button class="btn ${cls}" onclick="act('${k}',${Number(id)},'${a}')">${label}</button>`;
+const table = (heads, rows, empty) => rows.length
+  ? `<div class="panel"><table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`
+  : `<div class="panel"><div class="empty">${empty}</div></div>`;
+
+const filters = {q:'', role:'all', status:'pending'};
+function bar(statuses) {
+  return `<div class="bar"><input id="q" placeholder="Search by name or email" value="${esc(filters.q)}" aria-label="Search">
+    <select id="fr" aria-label="Role"><option value="all">All roles</option><option value="mentor">Mentors</option><option value="student">Students</option></select>
+    <select id="fs" aria-label="Status">${statuses.map(s=>`<option value="${s}">${s==='all'?'All statuses':s[0].toUpperCase()+s.slice(1)}</option>`).join('')}</select></div>`;
+}
+function wireBar() {
+  $('#fr').value = filters.role; $('#fs').value = filters.status;
+  $('#q').oninput = e => { filters.q = e.target.value; const p = e.target.selectionStart; render(); const q = $('#q'); q.focus(); q.setSelectionRange(p,p); };
+  $('#fr').onchange = e => { filters.role = e.target.value; render(); };
+  $('#fs').onchange = e => { filters.status = e.target.value; render(); };
+}
+const match = (x, name) => (filters.role==='all'||x.role===filters.role) && (filters.status==='all'||x.status===filters.status)
+  && (name+' '+x.email).toLowerCase().includes(filters.q.toLowerCase());
+
+const views = {
+  overview() {
+    const pend = S.regs.filter(r=>r.status==='pending');
+    const c = (n,l,cls='') => `<div class="stat ${cls}"><strong>${n}</strong><span>${l}</span></div>`;
+    return `<div class="stats">
+      ${c(pend.length,'Registrations awaiting review', pend.length?'alert':'')}
+      ${c(S.users.filter(u=>u.role==='mentor').length,'Mentors')}
+      ${c(S.users.filter(u=>u.role==='student').length,'Students')}
+      ${c(S.opps.filter(o=>o.status==='open').length,'Open opportunities')}</div>
+      <h2 style="font-size:16px;margin-bottom:10px">Waiting for your decision</h2>`
+      + table(['Name','Role','Email','Action'], pend.slice(0,5).map(r=>`<tr><td>${esc(r.first_name+' '+r.last_name)}</td><td>${tag(r.role)}</td><td>${esc(r.email)}</td><td class="act">${btn('regs',r.id,'accept','Accept','ok')}${btn('regs',r.id,'reject','Reject','bad')}</td></tr>`), 'No pending registrations. New sign-ups will show up here.');
+  },
+  regs() {
+    const rows = S.regs.filter(r=>match(r, r.first_name+' '+r.last_name)).map(r=>`<tr>
+      <td>${esc(r.first_name+' '+r.last_name)}</td><td>${tag(r.role)}</td><td>${esc(r.email)}</td><td>${esc(r.created_at||'')}</td><td>${tag(r.status)}</td>
+      <td class="act">${r.status==='pending' ? btn('regs',r.id,'accept','Accept','ok')+btn('regs',r.id,'reject','Reject','bad')
+        : r.status==='rejected' ? btn('regs',r.id,'accept','Accept instead') : btn('regs',r.id,'reject','Revoke','bad')}</td></tr>`);
+    return bar(['pending','accepted','rejected','all']) + table(['Name','Role','Email','Registered','Status','Action'], rows, 'No registrations match these filters.');
+  },
+  users() {
+    const rows = S.users.filter(u=>match(u,u.name)).map(u=>`<tr>
+      <td>${esc(u.name)}</td><td>${tag(u.role)}</td><td>${esc(u.email)}</td><td>${tag(u.status)}</td>
+      <td class="act">${u.status==='suspended' ? btn('users',u.id,'activate','Reactivate','ok') : btn('users',u.id,'suspend','Suspend')}${btn('users',u.id,'delete','Delete','bad')}</td></tr>`);
+    return bar(['all','active','suspended']) + table(['Name','Role','Email','Status','Action'], rows, 'No users match these filters.');
+  },
+  opps() {
+    const rows = S.opps.map(o=>`<tr><td>${esc(o.title)}</td><td>${esc(o.mentor)}</td><td>${Number(o.applicants)||0}</td><td>${tag(o.status)}</td>
+      <td class="act">${o.status==='open' ? btn('opps',o.id,'close','Close') : btn('opps',o.id,'reopen','Reopen','ok')}${btn('opps',o.id,'delete','Delete','bad')}</td></tr>`);
+    return table(['Opportunity','Mentor','Applicants','Status','Action'], rows, 'No opportunities posted yet.');
+  }
+};
+const titles = {overview:'Overview',regs:'Registrations',users:'Users',opps:'Opportunities'};
+
+function render() {
+  $('#title').textContent = titles[view];
+  $('#view').innerHTML = views[view]();
+  $('#pendBadge').textContent = S.regs.filter(r=>r.status==='pending').length;
+  if (view==='regs' || view==='users') wireBar();
+  document.querySelectorAll('.nav').forEach(n => n.classList.toggle('on', n.dataset.v === view));
+}
+document.querySelectorAll('.nav').forEach(n => n.onclick = () => {
+  view = n.dataset.v; filters.q = ''; filters.role = 'all'; filters.status = view==='regs' ? 'pending' : 'all'; render();
+});
+
+load();
+</script>
+</body>
+</html>
